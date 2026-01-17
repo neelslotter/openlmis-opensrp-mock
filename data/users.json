@@ -1,0 +1,34 @@
+{
+    "users": [
+        {
+            "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+            "username": "administrator",
+            "password": "password",
+            "firstName": "Admin",
+            "lastName": "User",
+            "email": "admin@openlmis.org",
+            "active": true,
+            "role": "ADMIN"
+        },
+        {
+            "id": "b2c3d4e5-f6a7-8901-bcde-f23456789012",
+            "username": "warehouse_manager",
+            "password": "password",
+            "firstName": "John",
+            "lastName": "Warehouse",
+            "email": "warehouse@openlmis.org",
+            "active": true,
+            "role": "WAREHOUSE_MANAGER"
+        },
+        {
+            "id": "c3d4e5f6-a7b8-9012-cdef-345678901234",
+            "username": "storeroom_manager",
+            "password": "password",
+            "firstName": "Jane",
+            "lastName": "Store",
+            "email": "store@openlmis.org",
+            "active": true,
+            "role": "STOREROOM_MANAGER"
+        }
+    ]
+}

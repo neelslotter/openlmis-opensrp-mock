@@ -1,0 +1,1113 @@
+{
+    "info": {
+        "_postman_id": "openlmis-opensrp-mock-collection",
+        "name": "OpenLMIS & OpenSRP Mock Server",
+        "description": "Collection for testing OpenLMIS 2 and OpenSRP FHIR Gateway mock endpoints.\n\nBase URL: https://openlmis-opensrp-mock.fly.dev",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "https://openlmis-opensrp-mock.fly.dev",
+            "type": "string"
+        },
+        {
+            "key": "accessToken",
+            "value": "",
+            "type": "string"
+        }
+    ],
+    "item": [
+        {
+            "name": "OpenLMIS",
+            "item": [
+                {
+                    "name": "Authentication",
+                    "item": [
+                        {
+                            "name": "Get Access Token",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "exec": [
+                                            "var jsonData = pm.response.json();",
+                                            "if (jsonData.access_token) {",
+                                            "    pm.collectionVariables.set('accessToken', jsonData.access_token);",
+                                            "    console.log('Token saved: ' + jsonData.access_token);",
+                                            "}",
+                                            "",
+                                            "pm.test('Status code is 200', function() {",
+                                            "    pm.response.to.have.status(200);",
+                                            "});",
+                                            "",
+                                            "pm.test('Response has access_token', function() {",
+                                            "    pm.expect(jsonData).to.have.property('access_token');",
+                                            "});"
+                                        ],
+                                        "type": "text/javascript"
+                                    }
+                                }
+                            ],
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/x-www-form-urlencoded"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "urlencoded",
+                                    "urlencoded": [
+                                        {
+                                            "key": "username",
+                                            "value": "administrator",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "password",
+                                            "value": "password",
+                                            "type": "text"
+                                        }
+                                    ]
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/oauth/token",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "oauth",
+                                        "token"
+                                    ]
+                                },
+                                "description": "Get OAuth2 access token with username/password"
+                            }
+                        },
+                        {
+                            "name": "List Users",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{accessToken}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/users",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "users"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Requisitions",
+                    "item": [
+                        {
+                            "name": "List Requisitions",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{accessToken}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/requisitions",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "requisitions"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Requisition by ID",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{accessToken}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/requisitions/req-001-uuid-mock",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "requisitions",
+                                        "req-001-uuid-mock"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Create Requisition",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{accessToken}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"facilityId\": \"fac-001\",\n  \"programId\": \"prog-essential-meds\",\n  \"processingPeriodId\": \"period-2026-01\",\n  \"emergency\": false,\n  \"requisitionLineItems\": []\n}"
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/requisitions",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "requisitions"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Submit Requisition",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{accessToken}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/requisitions/req-001-uuid-mock/submit",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "requisitions",
+                                        "req-001-uuid-mock",
+                                        "submit"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Authorize Requisition",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{accessToken}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/requisitions/req-002-uuid-mock/authorize",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "requisitions",
+                                        "req-002-uuid-mock",
+                                        "authorize"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Approve Requisition",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{accessToken}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/requisitions/req-003-uuid-mock/approve",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "requisitions",
+                                        "req-003-uuid-mock",
+                                        "approve"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Requisitions for Approval",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{accessToken}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/requisitions-for-approval",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "requisitions-for-approval"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Stock Management",
+                    "item": [
+                        {
+                            "name": "Get Stock Cards",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{accessToken}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/stockCards",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "stockCards"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Stock Summaries",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{accessToken}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/stockCardSummaries",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "stockCardSummaries"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Create Stock Event",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{accessToken}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"lineItems\": [\n    {\n      \"orderableId\": \"orderable-paracetamol\",\n      \"quantity\": 100,\n      \"occurredDate\": \"2026-01-17\",\n      \"reasonId\": \"RECEIVE\",\n      \"sourceId\": \"src-001\"\n    }\n  ]\n}"
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/stockEvents",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "stockEvents"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Valid Sources",
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/validSources",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "validSources"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Valid Destinations",
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/validDestinations",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "validDestinations"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Reference Data",
+                    "item": [
+                        {
+                            "name": "List Facilities",
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/facilities",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "facilities"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Facility by ID",
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/facilities/fac-001",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "facilities",
+                                        "fac-001"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "List Programs",
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/programs",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "programs"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "List Products (Orderables)",
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/orderables",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "orderables"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "List Processing Periods",
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/processingPeriods",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "processingPeriods"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "OpenSRP FHIR Gateway",
+            "item": [
+                {
+                    "name": "Metadata",
+                    "item": [
+                        {
+                            "name": "Capability Statement",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/fhir+json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/fhir/metadata",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "fhir",
+                                        "metadata"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Patient",
+                    "item": [
+                        {
+                            "name": "Search Patients",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/fhir+json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/fhir/Patient",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "fhir",
+                                        "Patient"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Search Patients by Name",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/fhir+json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/fhir/Patient?name=James",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "fhir",
+                                        "Patient"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "name",
+                                            "value": "James"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Patient by ID",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/fhir+json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/fhir/Patient/patient-001",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "fhir",
+                                        "Patient",
+                                        "patient-001"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Create Patient",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/fhir+json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/fhir+json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"resourceType\": \"Patient\",\n  \"active\": true,\n  \"name\": [\n    {\n      \"use\": \"official\",\n      \"family\": \"Smith\",\n      \"given\": [\"John\", \"William\"]\n    }\n  ],\n  \"gender\": \"male\",\n  \"birthDate\": \"1995-06-15\",\n  \"address\": [\n    {\n      \"use\": \"home\",\n      \"city\": \"Nairobi\",\n      \"country\": \"Kenya\"\n    }\n  ]\n}"
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/fhir/Patient",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "fhir",
+                                        "Patient"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Update Patient",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/fhir+json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/fhir+json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"resourceType\": \"Patient\",\n  \"id\": \"patient-001\",\n  \"active\": true,\n  \"name\": [\n    {\n      \"use\": \"official\",\n      \"family\": \"Mwangi-Updated\",\n      \"given\": [\"James\", \"Kamau\"]\n    }\n  ],\n  \"gender\": \"male\",\n  \"birthDate\": \"1985-03-15\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/fhir/Patient/patient-001",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "fhir",
+                                        "Patient",
+                                        "patient-001"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Location",
+                    "item": [
+                        {
+                            "name": "Search Locations",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/fhir+json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/fhir/Location",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "fhir",
+                                        "Location"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Location by ID",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/fhir+json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/fhir/Location/location-001",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "fhir",
+                                        "Location",
+                                        "location-001"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Create Location",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/fhir+json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/fhir+json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"resourceType\": \"Location\",\n  \"status\": \"active\",\n  \"name\": \"New Health Facility\",\n  \"description\": \"A new health facility\",\n  \"mode\": \"instance\",\n  \"address\": {\n    \"city\": \"Nairobi\",\n    \"country\": \"Kenya\"\n  }\n}"
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/fhir/Location",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "fhir",
+                                        "Location"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Organization",
+                    "item": [
+                        {
+                            "name": "Search Organizations",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/fhir+json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/fhir/Organization",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "fhir",
+                                        "Organization"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Organization by ID",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/fhir+json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/fhir/Organization/org-001",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "fhir",
+                                        "Organization",
+                                        "org-001"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Practitioner",
+                    "item": [
+                        {
+                            "name": "Search Practitioners",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/fhir+json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/fhir/Practitioner",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "fhir",
+                                        "Practitioner"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Practitioner by ID",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/fhir+json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/fhir/Practitioner/practitioner-001",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "fhir",
+                                        "Practitioner",
+                                        "practitioner-001"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Search Practitioner Roles",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/fhir+json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/fhir/PractitionerRole",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "fhir",
+                                        "PractitionerRole"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Webhooks & Events",
+            "item": [
+                {
+                    "name": "Management",
+                    "item": [
+                        {
+                            "name": "List All Events",
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/events",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "events"
+                                    ]
+                                },
+                                "description": "List all events received or simulated by the mock server."
+                            }
+                        },
+                        {
+                            "name": "Filter Events by Source",
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/events?source=openlmis",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "events"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "source",
+                                            "value": "openlmis"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Clear All Events",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/events",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "events"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Webhook Receivers (Incoming)",
+                    "item": [
+                        {
+                            "name": "OpenLMIS Generic Webhook",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"type\": \"requisition.statusChange\",\n  \"requisitionId\": \"req-001\",\n  \"status\": \"SUBMITTED\",\n  \"timestamp\": \"2026-01-17T18:00:00Z\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/webhooks/openlmis",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "webhooks",
+                                        "openlmis"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "OpenSRP Generic Webhook",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"resourceType\": \"Patient\",\n  \"id\": \"patient-abc-123\",\n  \"type\": \"patient.created\",\n  \"name\": [{ \"family\": \"Doe\", \"given\": [\"John\"] }]\n}"
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/webhooks/opensrp",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "webhooks",
+                                        "opensrp"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Event Simulation (Internal)",
+                    "item": [
+                        {
+                            "name": "Simulate OpenLMIS Requisition",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"requisitionId\": \"req-001-uuid-mock\",\n  \"newStatus\": \"SUBMITTED\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/events/simulate/openlmis/requisition",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "events",
+                                        "simulate",
+                                        "openlmis",
+                                        "requisition"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Simulate OpenLMIS Stock Update",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"orderableId\": \"orderable-paracetamol\",\n  \"quantity\": 50\n}"
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/events/simulate/openlmis/stock",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "events",
+                                        "simulate",
+                                        "openlmis",
+                                        "stock"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Simulate OpenSRP Patient",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"action\": \"created\",\n  \"family\": \"Doe\",\n  \"given\": \"Jane\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/events/simulate/opensrp/patient",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "events",
+                                        "simulate",
+                                        "opensrp",
+                                        "patient"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Simulate OpenSRP Encounter",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"patientId\": \"patient-001\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/events/simulate/opensrp/encounter",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "events",
+                                        "simulate",
+                                        "opensrp",
+                                        "encounter"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,76 @@
+{
+    "requisitions": [
+        {
+            "id": "req-001-uuid-mock",
+            "facilityId": "fac-001",
+            "programId": "prog-essential-meds",
+            "processingPeriodId": "period-2026-01",
+            "status": "INITIATED",
+            "emergency": false,
+            "createdDate": "2026-01-15T10:00:00Z",
+            "modifiedDate": "2026-01-15T10:00:00Z",
+            "requisitionLineItems": [
+                {
+                    "id": "line-001",
+                    "orderableId": "orderable-paracetamol",
+                    "beginningBalance": 100,
+                    "totalReceivedQuantity": 50,
+                    "totalConsumedQuantity": 80,
+                    "stockOnHand": 70,
+                    "requestedQuantity": 100
+                },
+                {
+                    "id": "line-002",
+                    "orderableId": "orderable-amoxicillin",
+                    "beginningBalance": 200,
+                    "totalReceivedQuantity": 100,
+                    "totalConsumedQuantity": 150,
+                    "stockOnHand": 150,
+                    "requestedQuantity": 200
+                }
+            ]
+        },
+        {
+            "id": "req-002-uuid-mock",
+            "facilityId": "fac-002",
+            "programId": "prog-essential-meds",
+            "processingPeriodId": "period-2026-01",
+            "status": "SUBMITTED",
+            "emergency": false,
+            "createdDate": "2026-01-10T09:00:00Z",
+            "modifiedDate": "2026-01-12T14:30:00Z",
+            "requisitionLineItems": [
+                {
+                    "id": "line-003",
+                    "orderableId": "orderable-ibuprofen",
+                    "beginningBalance": 50,
+                    "totalReceivedQuantity": 0,
+                    "totalConsumedQuantity": 30,
+                    "stockOnHand": 20,
+                    "requestedQuantity": 80
+                }
+            ]
+        },
+        {
+            "id": "req-003-uuid-mock",
+            "facilityId": "fac-001",
+            "programId": "prog-vaccines",
+            "processingPeriodId": "period-2026-01",
+            "status": "AUTHORIZED",
+            "emergency": true,
+            "createdDate": "2026-01-14T08:00:00Z",
+            "modifiedDate": "2026-01-16T11:00:00Z",
+            "requisitionLineItems": [
+                {
+                    "id": "line-004",
+                    "orderableId": "orderable-bcg-vaccine",
+                    "beginningBalance": 500,
+                    "totalReceivedQuantity": 200,
+                    "totalConsumedQuantity": 600,
+                    "stockOnHand": 100,
+                    "requestedQuantity": 1000
+                }
+            ]
+        }
+    ]
+}

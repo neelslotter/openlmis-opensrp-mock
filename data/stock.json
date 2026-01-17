@@ -1,0 +1,71 @@
+{
+    "stockCards": [
+        {
+            "id": "stock-card-001",
+            "facilityId": "fac-001",
+            "programId": "prog-essential-meds",
+            "orderableId": "orderable-paracetamol",
+            "stockOnHand": 70,
+            "lineItems": [
+                {
+                    "id": "line-item-001",
+                    "occurredDate": "2026-01-10",
+                    "quantity": 50,
+                    "reason": "RECEIVE",
+                    "source": "District Warehouse"
+                },
+                {
+                    "id": "line-item-002",
+                    "occurredDate": "2026-01-15",
+                    "quantity": -30,
+                    "reason": "ISSUE",
+                    "destination": "Community Health Post"
+                }
+            ]
+        },
+        {
+            "id": "stock-card-002",
+            "facilityId": "fac-001",
+            "programId": "prog-essential-meds",
+            "orderableId": "orderable-amoxicillin",
+            "stockOnHand": 150,
+            "lineItems": [
+                {
+                    "id": "line-item-003",
+                    "occurredDate": "2026-01-05",
+                    "quantity": 100,
+                    "reason": "RECEIVE",
+                    "source": "District Warehouse"
+                }
+            ]
+        }
+    ],
+    "validSources": [
+        {
+            "id": "src-001",
+            "name": "District Warehouse"
+        },
+        {
+            "id": "src-002",
+            "name": "Regional Store"
+        },
+        {
+            "id": "src-003",
+            "name": "National Medical Store"
+        }
+    ],
+    "validDestinations": [
+        {
+            "id": "dest-001",
+            "name": "Community Health Post"
+        },
+        {
+            "id": "dest-002",
+            "name": "Mobile Clinic"
+        },
+        {
+            "id": "dest-003",
+            "name": "Rural Health Center"
+        }
+    ]
+}

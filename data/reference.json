@@ -1,0 +1,153 @@
+{
+    "facilities": [
+        {
+            "id": "fac-001",
+            "code": "HC001",
+            "name": "Central Health Center",
+            "description": "Main district health center",
+            "active": true,
+            "enabled": true,
+            "type": {
+                "id": "type-hc",
+                "name": "Health Center"
+            },
+            "geographicZone": {
+                "id": "zone-central",
+                "name": "Central District"
+            },
+            "operator": {
+                "id": "op-moh",
+                "name": "Ministry of Health"
+            }
+        },
+        {
+            "id": "fac-002",
+            "code": "HP001",
+            "name": "Northern Health Post",
+            "description": "Community health post serving northern region",
+            "active": true,
+            "enabled": true,
+            "type": {
+                "id": "type-hp",
+                "name": "Health Post"
+            },
+            "geographicZone": {
+                "id": "zone-north",
+                "name": "Northern District"
+            },
+            "operator": {
+                "id": "op-ngo",
+                "name": "Health NGO Partners"
+            }
+        },
+        {
+            "id": "fac-003",
+            "code": "DW001",
+            "name": "District Warehouse",
+            "description": "Central district warehouse",
+            "active": true,
+            "enabled": true,
+            "type": {
+                "id": "type-wh",
+                "name": "Warehouse"
+            },
+            "geographicZone": {
+                "id": "zone-central",
+                "name": "Central District"
+            },
+            "operator": {
+                "id": "op-moh",
+                "name": "Ministry of Health"
+            }
+        }
+    ],
+    "programs": [
+        {
+            "id": "prog-essential-meds",
+            "code": "EM",
+            "name": "Essential Medicines",
+            "description": "Essential medicines program",
+            "active": true
+        },
+        {
+            "id": "prog-vaccines",
+            "code": "VAC",
+            "name": "Vaccines",
+            "description": "Immunization and vaccines program",
+            "active": true
+        },
+        {
+            "id": "prog-family-planning",
+            "code": "FP",
+            "name": "Family Planning",
+            "description": "Family planning commodities",
+            "active": true
+        }
+    ],
+    "orderables": [
+        {
+            "id": "orderable-paracetamol",
+            "productCode": "PARA500",
+            "fullProductName": "Paracetamol 500mg Tablets",
+            "netContent": 100,
+            "packRoundingThreshold": 1,
+            "roundToZero": false,
+            "dispensable": {
+                "displayUnit": "tablets"
+            }
+        },
+        {
+            "id": "orderable-amoxicillin",
+            "productCode": "AMOX250",
+            "fullProductName": "Amoxicillin 250mg Capsules",
+            "netContent": 100,
+            "packRoundingThreshold": 1,
+            "roundToZero": false,
+            "dispensable": {
+                "displayUnit": "capsules"
+            }
+        },
+        {
+            "id": "orderable-ibuprofen",
+            "productCode": "IBU400",
+            "fullProductName": "Ibuprofen 400mg Tablets",
+            "netContent": 50,
+            "packRoundingThreshold": 1,
+            "roundToZero": false,
+            "dispensable": {
+                "displayUnit": "tablets"
+            }
+        },
+        {
+            "id": "orderable-bcg-vaccine",
+            "productCode": "VAC-BCG",
+            "fullProductName": "BCG Vaccine",
+            "netContent": 20,
+            "packRoundingThreshold": 1,
+            "roundToZero": false,
+            "dispensable": {
+                "displayUnit": "doses"
+            }
+        }
+    ],
+    "processingPeriods": [
+        {
+            "id": "period-2025-12",
+            "name": "December 2025",
+            "startDate": "2025-12-01",
+            "endDate": "2025-12-31"
+        },
+        {
+            "id": "period-2026-01",
+            "name": "January 2026",
+            "startDate": "2026-01-01",
+            "endDate": "2026-01-31"
+        },
+        {
+            "id": "period-2026-02",
+            "name": "February 2026",
+            "startDate": "2026-02-01",
+            "endDate": "2026-02-28"
+        }
+    ]
+}
