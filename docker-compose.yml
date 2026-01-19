@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "5003:8080"
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_ENV=development
